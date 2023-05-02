@@ -1,0 +1,18 @@
+#!/bin/bash
+
+# Enter the IP address you want to scan
+read -p "Enter IP address to scan: " ip
+
+# Enter the range of ports you want to scan
+read -p "Enter port range to scan (e.g. 1-100): " port_range
+
+# Separate the start and end of the port range
+start_port=$(echo $port_range | cut -d'-' -f1)
+end_port=$(echo $port_range | cut -d'-' -f2)
+
+# Loop through the range of ports
+for ((port=$start_port;port<=$end_port;port++))
+do
+    # Use nc (netcat) to check if the port is open
+    (echo >/dev/tcp/$ip/$port) >/dev/null 2>&1 && echo "Port $port is open"
+done
